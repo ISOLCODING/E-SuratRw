@@ -6,21 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('validasi_surats', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('surat_pengajuan_id')->constrained()->onDelete('cascade');
+            $table->string('kode_qr')->nullable();
+            $table->string('barcode')->nullable();
+            $table->timestamp('tanggal_validasi')->nullable();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->string('validated_by')->nullable();
             $table->timestamps();
+
+            $table->index('surat_pengajuan_id');
+            $table->index('tanggal_validasi');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('validasi_surats');
     }

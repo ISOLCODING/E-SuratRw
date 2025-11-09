@@ -6,21 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('surat_pengajuans', function (Blueprint $table) {
             $table->id();
+            $table->string('nomor_surat')->unique();
+            $table->foreignId('warga_id')->constrained()->onDelete('cascade');
+            $table->foreignId('jenis_surat_id')->constrained()->onDelete('cascade');
+            $table->text('keperluan');
+            $table->enum('status', ['pending', 'diproses', 'selesai', 'ditolak'])->default('pending');
+            $table->date('tanggal_pengajuan');
+            $table->date('tanggal_selesai')->nullable();
+            $table->foreignId('operator_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->text('catatan')->nullable();
+            $table->string('kode_validasi')->unique();
             $table->timestamps();
+
+            // Indexes untuk performa
+            $table->index('status');
+            $table->index('tanggal_pengajuan');
+            $table->index('kode_validasi');
+            $table->index(['status', 'tanggal_pengajuan']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('surat_pengajuans');
     }

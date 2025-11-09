@@ -6,21 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('jenis_surats', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_surat');
+            $table->string('kode_surat')->unique();
+            $table->string('template_path');
+            $table->boolean('is_active')->default(true);
+            $table->text('deskripsi')->nullable();
+            $table->integer('lama_proses')->default(1)->comment('Dalam hari');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('jenis_surats');
     }
