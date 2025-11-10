@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('validasi_surats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('surat_pengajuan_id')->constrained()->onDelete('cascade');
+            $table->foreignId('surat_pengajuan_id')->constrained('surat_pengajuans')->onDelete('cascade');
             $table->string('kode_qr')->nullable();
             $table->string('barcode')->nullable();
             $table->timestamp('tanggal_validasi')->nullable();

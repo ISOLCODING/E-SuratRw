@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('surat_pengajuans', function (Blueprint $table) {
             $table->id();
             $table->string('nomor_surat')->unique();
-            $table->foreignId('warga_id')->constrained()->onDelete('cascade');
-            $table->foreignId('jenis_surat_id')->constrained()->onDelete('cascade');
+            $table->foreignId('warga_id')->constrained('wargas')->onDelete('cascade');
+            $table->foreignId('jenis_surat_id')->constrained('jenis_surats')->onDelete('cascade');
             $table->text('keperluan');
             $table->enum('status', ['pending', 'diproses', 'selesai', 'ditolak'])->default('pending');
             $table->date('tanggal_pengajuan');
@@ -22,11 +22,9 @@ return new class extends Migration
             $table->string('kode_validasi')->unique();
             $table->timestamps();
 
-            // Indexes untuk performa
             $table->index('status');
             $table->index('tanggal_pengajuan');
             $table->index('kode_validasi');
-            $table->index(['status', 'tanggal_pengajuan']);
         });
     }
 
