@@ -20,9 +20,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'nama_lengkap',
         'email',
         'password',
+        'telepon',
+        'alamat',
+
+
     ];
 
     /**
@@ -47,4 +51,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function warga()
+    {
+        return $this->hasOne(Warga::class);
+    }
+
+    public function suratDitangani()
+    {
+        return $this->hasMany(SuratPengajuan::class, 'operator_id');
+    }
+
+    public function riwayatSurat()
+    {
+        return $this->hasMany(RiwayatSurat::class);
+    }
+
 }

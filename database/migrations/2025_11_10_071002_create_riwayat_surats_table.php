@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('riwayat_surats', function (Blueprint $table) {
             $table->id();
-            // PERBAIKAN: Gunakan surat_pengajuan_id dan specify table name
             $table->foreignId('surat_pengajuan_id')->constrained('surat_pengajuans')->onDelete('cascade');
             $table->string('status_sebelum')->nullable();
             $table->string('status_sesudah');
